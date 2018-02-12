@@ -65,7 +65,7 @@ legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")
 title("Apprehensions Comparisons by Month")
 ```
 
-##** Numerical Comparison between the Max sector in 2010 and 2017**
+##**Numerical Comparison between the Max sector in 2010 and 2017**
 ```{r}
 maxsect2010 <- as.numeric(as.vector(A2010[8,1:12]))
 maxsect2017 <- as.numeric(as.vector(A2017[6,1:12]))
@@ -73,7 +73,7 @@ var.test(maxsect2010, maxsect2017)
 t.test(maxsect2010, maxsect2017, var.equal = TRUE)
 ```
 
-##** Numerical Comparison between the Max Month in 2010 and 2017**
+##**Numerical Comparison between the Max Month in 2010 and 2017**
 ```{r}
 max3mnth2010 <- c(A2010$March[1:9],A2010$April[1:9],A2010$May[1:9])
 max3mnth2017 <- c(A2017$October[1:9], A2017$November[1:9], A2017$December[1:9])
