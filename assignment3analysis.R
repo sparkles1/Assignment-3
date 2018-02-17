@@ -44,16 +44,16 @@ colnames(compsect2010) <- rownames(A2010)[1:9]
 compsect2017 <- as.data.frame(matrix(c(A2017[1,13],A2017[2,13],A2017[3,13],A2017[4,13],A2017[5,13],A2017[6,13],A2017[7,13],A2017[8,13],A2017[9,13]), nrow = 1))
 colnames(compsect2017) <- rownames(A2010)[1:9]
 compsect10.17 <- rbind(compsect2010, compsect2017)
-barplot(as.matrix(compsect10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Sector")
+barplot(as.matrix(compsect10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Sector", las=2, cex.lab = 1.5, cex.axis = 0.7, cex.names = 0.6)
 legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")        
 title("Apprehension Comparisons by Sector")
 
-compmnth2010 <- as.data.frame(matrix(c(A2010[10,1],A2010[10,2],A2010[10,3],A2010[10,4],A2010[10,5],A2010[10,6],A2010[10,7],A2010[10,8],A2010[10,9]), nrow = 1))
-colnames(compmnth2010) <- colnames(A2010)[1:9]
-compmnth2017 <- as.data.frame(matrix(c(A2017[10,1],A2017[10,2],A2017[10,3],A2017[10,4],A2017[10,5],A2017[10,6],A2017[10,7],A2017[10,8],A2017[10,9]), nrow = 1))
-colnames(compmnth2017) <- colnames(A2010)[1:9]
+compmnth2010 <- as.data.frame(matrix(c(A2010[10,1],A2010[10,2],A2010[10,3],A2010[10,4],A2010[10,5],A2010[10,6],A2010[10,7],A2010[10,8],A2010[10,9],A2010[10,10],A2010[10,11],A2010[10,12]), nrow = 1))
+colnames(compmnth2010) <- colnames(A2010)[1:12]
+compmnth2017 <- as.data.frame(matrix(c(A2017[10,1],A2017[10,2],A2017[10,3],A2017[10,4],A2017[10,5],A2017[10,6],A2017[10,7],A2017[10,8],A2017[10,9],A2017[10,10],A2017[10,11],A2017[10,12]), nrow = 1))
+colnames(compmnth2017) <- colnames(A2010)[1:12]
 compmnth10.17 <- rbind(compmnth2010, compmnth2017)
-barplot(as.matrix(compmnth10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Month")
+barplot(as.matrix(compmnth10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Month",las=2, cex.lab = 1.5, cex.axis = 0.7, cex.names= 0.7)
 legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")
 title("Apprehensions Comparisons by Month")
 

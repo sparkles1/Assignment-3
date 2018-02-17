@@ -7,21 +7,24 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=8, fig.height=4)
 ```
 
 #**Data Analysis for United States Border of Apprehensions between 2010 and 2017**   
+#### According to CNN Border Patrol Apprehensions reached an all time low in the month of April 2017. They claimed to have seen record breaking lows in apprehensions, that may be influenced by Donald Trump's rhetoric and strong public views on immigrants and immigration laws. We have decided to take a look at the data ourselves to determine if these claims are valid. Our observations and results are reported below. 
 
-##**Extracting and Reading the different datasets from 2010 and 2017**
-```{r}
+```{r, echo=FALSE}
+#Extracting and Reading the different datasets from 2010 and 2017
 A2010 <- read.csv("BP Apprehensions 2010.csv", header = TRUE, stringsAsFactors = FALSE)
 A2017 <- read.csv("BP Apprehensions 2017.csv", header = TRUE, stringsAsFactors = FALSE)
 A2000.2017 <- read.csv("BP monthly summaries.csv", header = TRUE, stringsAsFactors = FALSE)
 
 ```
 
-##**Editing the Data for 2010**
 
-```{r}
+
+```{r, echo=FALSE}
+#Editing the Dataframe to add Sector and Monthly Totals for 2010
 rownames(A2010) <- A2010[,1]
 A2010 <-  subset(A2010, select= -c(Sector))
 A2010 <- rbind(A2010, colSums(A2010))
@@ -30,8 +33,9 @@ A2010 <- cbind(A2010,rowSums(A2010))
 colnames(A2010) <- c(colnames(A2010)[-length(colnames(A2010))], "Total")
 ```
 
-##**Editing the Data for 2017**
-```{r}
+
+```{r, echo=FALSE}
+#Editing the Dataframe to add Sector and Monthly Totals for 2017
 rownames(A2017) <- A2017[,1]
 A2017 <-  subset(A2017, select= -c(Sector))
 A2017 <- rbind(A2017, colSums(A2017))
@@ -41,47 +45,52 @@ colnames(A2017) <- c(colnames(A2017)[-length(colnames(A2017))], "Total")
 ```
 
 ##**Bar Plot comparison between the sectors in 2010 and 2017**
-```{r}
+```{r, echo=FALSE}
 compsect2010 <- as.data.frame(matrix(c(A2010[1,13],A2010[2,13],A2010[3,13],A2010[4,13],A2010[5,13],A2010[6,13],A2010[7,13],A2010[8,13],A2010[9,13]), nrow = 1))
 colnames(compsect2010) <- rownames(A2010)[1:9]
 compsect2017 <- as.data.frame(matrix(c(A2017[1,13],A2017[2,13],A2017[3,13],A2017[4,13],A2017[5,13],A2017[6,13],A2017[7,13],A2017[8,13],A2017[9,13]), nrow = 1))
 colnames(compsect2017) <- rownames(A2010)[1:9]
 compsect10.17 <- rbind(compsect2010, compsect2017)
-barplot(as.matrix(compsect10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Sector")
+barplot(as.matrix(compsect10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Sector", las=2, cex.lab = 1.5, cex.axis = 0.7, cex.names = 0.6)
 legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")        
 title("Apprehension Comparisons by Sector")
 
 ```
 
+#### From the bar plot comparisons for sectors shown above there is not a consistent trend in the change in Border Patrol apprehensions between 2010 and 2017 among all of the sectors as a whole. In some sectors such as El Paso and Rio Grande Valley the number of apprehensions increased from 2010 to 2017, while in other sectors it decreased. One major observation that can be seen is the notable decrease in apprehensions in Tucson over the 7 year time period. 
+
 ##**Bar Plot Comparison between the Months in 2010 and 2017**
-```{r}
-compmnth2010 <- as.data.frame(matrix(c(A2010[10,1],A2010[10,2],A2010[10,3],A2010[10,4],A2010[10,5],A2010[10,6],A2010[10,7],A2010[10,8],A2010[10,9]), nrow = 1))
-colnames(compmnth2010) <- colnames(A2010)[1:9]
-compmnth2017 <- as.data.frame(matrix(c(A2017[10,1],A2017[10,2],A2017[10,3],A2017[10,4],A2017[10,5],A2017[10,6],A2017[10,7],A2017[10,8],A2017[10,9]), nrow = 1))
-colnames(compmnth2017) <- colnames(A2010)[1:9]
+```{r, echo=FALSE}
+compmnth2010 <- as.data.frame(matrix(c(A2010[10,1],A2010[10,2],A2010[10,3],A2010[10,4],A2010[10,5],A2010[10,6],A2010[10,7],A2010[10,8],A2010[10,9],A2010[10,10],A2010[10,11],A2010[10,12]), nrow = 1))
+colnames(compmnth2010) <- colnames(A2010)[1:12]
+compmnth2017 <- as.data.frame(matrix(c(A2017[10,1],A2017[10,2],A2017[10,3],A2017[10,4],A2017[10,5],A2017[10,6],A2017[10,7],A2017[10,8],A2017[10,9],A2017[10,10],A2017[10,11],A2017[10,12]), nrow = 1))
+colnames(compmnth2017) <- colnames(A2010)[1:12]
 compmnth10.17 <- rbind(compmnth2010, compmnth2017)
-barplot(as.matrix(compmnth10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Month")
+barplot(as.matrix(compmnth10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Month",las=2, cex.lab = 1.5, cex.axis = 0.7, cex.names = 0.7)
 legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")
 title("Apprehensions Comparisons by Month")
 ```
 
-##**Numerical Comparison between the Max sector in 2010 and 2017**
-```{r}
+#### Once again there is no visible trend noticable in changes in Border Patrol apprehensions from 2010 to 2017 based on the monthly comparison bar plot above. Some attention worthy changes to note are the significant decreases in apprehensions in the months of March, April, and May. There are also some unexpected increases in apprehensions during the months of October, November, and December. 
+
+##**T-Tests comparing Max Apprehensions by Sector in 2010 and 2017**
+```{r, echo=FALSE}
 maxsect2010 <- as.numeric(as.vector(A2010[8,1:12]))
 maxsect2017 <- as.numeric(as.vector(A2017[6,1:12]))
 var.test(maxsect2010, maxsect2017)
 t.test(maxsect2010, maxsect2017, var.equal = TRUE)
 ```
 
-##**Numerical Comparison between the Max Month in 2010 and 2017**
-```{r}
+##**T-Tests comparing Max Apprehensions by 3-Month Period in 2010 and 2017**
+```{r, echo=FALSE}
 max3mnth2010 <- c(A2010$March[1:9],A2010$April[1:9],A2010$May[1:9])
 max3mnth2017 <- c(A2017$October[1:9], A2017$November[1:9], A2017$December[1:9])
 var.test(max3mnth2010, max3mnth2017)
 t.test(max3mnth2010, max3mnth2017, var.equal = TRUE)
 ```
-##**Time Series Plot for the Monthlyu summaries**
-```{r}
+
+##**Time Series Plot for the Monthly Summaries**
+```{r, echo=FALSE}
 x1 <- A2000.2017[order(nrow(A2000.2017):1),]
 ts1 <- x1[,2:13]
 ts2 <- as.vector(t(ts1))
