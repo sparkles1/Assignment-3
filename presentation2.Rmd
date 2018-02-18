@@ -160,3 +160,15 @@ t.test(max3mnth2010, max3mnth2017, var.equal = TRUE)
 ```
 
 The 3-month period in 2010 with max apprehensions was March, April, and May. The 3-month period in 2017 with max apprehensions was October, November, December. Based on the t-test, the results show that there is no significant difference in means between these two 3-month periods.  
+
+
+##**Time Series**
+```{r}
+A2000.2017 <- read.csv("BP monthly summaries.csv", header = TRUE, stringsAsFactors = FALSE)
+x1 <- A2000.2017[order(nrow(A2000.2017):1),]
+ts1 <- x1[,2:13]
+ts2 <- as.vector(t(ts1))
+ts3 <- ts(ts2, start = c(2000,17), frequency=12)
+ts.plot(ts3, gpars=list(main = "BP Apprehensions Monthly Time Series Plot (2000-2017)",xlab="year", ylab="Apprehensions",lty=c(1:3),col=4))
+```
+
