@@ -1,6 +1,6 @@
 ---
-title: "Assignment3doc"
-author: "Udochi,Ozair,Junpei"
+title: "Border Patrol Analysis"
+author: "Udochi Maduakor, Ozair Meghani ,Junpei Xiao"
 date: "February 11, 2018"
 output: pdf_document
 ---
@@ -27,9 +27,13 @@ A2000.2017 <- read.csv("BP monthly summaries.csv", header = TRUE, stringsAsFacto
 #Editing the Dataframe to add Sector and Monthly Totals for 2010
 rownames(A2010) <- A2010[,1]
 A2010 <-  subset(A2010, select= -c(Sector))
+# rbind ColSums to dataframe
 A2010 <- rbind(A2010, colSums(A2010))
+# rename the row with column totals "Total"
 rownames(A2010) <- c(rownames(A2010)[-length(rownames(A2010))], "Total")
+# cbind rowSums to dataframe
 A2010 <- cbind(A2010,rowSums(A2010))
+# rename last column "Totals
 colnames(A2010) <- c(colnames(A2010)[-length(colnames(A2010))], "Total")
 ```
 
@@ -38,19 +42,27 @@ colnames(A2010) <- c(colnames(A2010)[-length(colnames(A2010))], "Total")
 #Editing the Dataframe to add Sector and Monthly Totals for 2017
 rownames(A2017) <- A2017[,1]
 A2017 <-  subset(A2017, select= -c(Sector))
+# rbind ColSums to dataframe
 A2017 <- rbind(A2017, colSums(A2017))
+# rename the row with column totals "Total"
 rownames(A2017) <- c(rownames(A2017)[-length(rownames(A2017))], "Total")
+# cbind rowSums to dataframe
 A2017 <- cbind(A2017,rowSums(A2017))
+# rename last column "Totals
 colnames(A2017) <- c(colnames(A2017)[-length(colnames(A2017))], "Total")
 ```
 
 ##**Bar Plot comparison between the sectors in 2010 and 2017**
 ```{r, echo=FALSE}
+# create dataframe of sector totals for 2010
 compsect2010 <- as.data.frame(matrix(c(A2010[1,13],A2010[2,13],A2010[3,13],A2010[4,13],A2010[5,13],A2010[6,13],A2010[7,13],A2010[8,13],A2010[9,13]), nrow = 1))
 colnames(compsect2010) <- rownames(A2010)[1:9]
+# create dataframe of sector totals for 2017
 compsect2017 <- as.data.frame(matrix(c(A2017[1,13],A2017[2,13],A2017[3,13],A2017[4,13],A2017[5,13],A2017[6,13],A2017[7,13],A2017[8,13],A2017[9,13]), nrow = 1))
 colnames(compsect2017) <- rownames(A2010)[1:9]
+# rbind the two dataframes 
 compsect10.17 <- rbind(compsect2010, compsect2017)
+# create barplot comparing sector totals between 2010/2017
 barplot(as.matrix(compsect10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Sector", las=2, cex.lab = 1.5, cex.axis = 0.7, cex.names = 0.6)
 legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")        
 title("Apprehension Comparisons by Sector")
@@ -61,11 +73,15 @@ title("Apprehension Comparisons by Sector")
 
 ##**Bar Plot Comparison between the Months in 2010 and 2017**
 ```{r, echo=FALSE}
+# create dataframe of month totals for 2010
 compmnth2010 <- as.data.frame(matrix(c(A2010[10,1],A2010[10,2],A2010[10,3],A2010[10,4],A2010[10,5],A2010[10,6],A2010[10,7],A2010[10,8],A2010[10,9],A2010[10,10],A2010[10,11],A2010[10,12]), nrow = 1))
 colnames(compmnth2010) <- colnames(A2010)[1:12]
+# create dataframe of month totals for 2017
 compmnth2017 <- as.data.frame(matrix(c(A2017[10,1],A2017[10,2],A2017[10,3],A2017[10,4],A2017[10,5],A2017[10,6],A2017[10,7],A2017[10,8],A2017[10,9],A2017[10,10],A2017[10,11],A2017[10,12]), nrow = 1))
 colnames(compmnth2017) <- colnames(A2010)[1:12]
+# rbind the two dataframes 
 compmnth10.17 <- rbind(compmnth2010, compmnth2017)
+# create barplot comparing month totals between 2010/2017
 barplot(as.matrix(compmnth10.17), beside = TRUE, col = c("red", "blue"), bty="n", ylab = "Apprehensions", xlab = "Month",las=2, cex.lab = 1.5, cex.axis = 0.7, cex.names = 0.7)
 legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")
 title("Apprehensions Comparisons by Month")
@@ -75,19 +91,29 @@ title("Apprehensions Comparisons by Month")
 
 ##**T-Tests comparing Max Apprehensions by Sector in 2010 and 2017**
 ```{r, echo=FALSE}
+# create two vectors of sector with max apprhensions in 2010 and 2017
 maxsect2010 <- as.numeric(as.vector(A2010[8,1:12]))
 maxsect2017 <- as.numeric(as.vector(A2017[6,1:12]))
+# variance test between two vectors
 var.test(maxsect2010, maxsect2017)
+# equal var t-test between two vectors 
 t.test(maxsect2010, maxsect2017, var.equal = TRUE)
 ```
 
+#### The next portion of our analysis involved conducting a T-test between the sector with the most apprehensions in 2010 with the sector that had the most apprehensions in 2017. We wanted to determine if there was a statistically significant decrease in between sectors with maximum apprehensions. Based on observing the numbers alone, we can see that Tucson had the maximum apprehensions in 2010 with 212,202, while Rio Grande Valley had the maximum apprehensions in 2017 with 137,562, which is a decrease of roughly 75,000. First we conducted a Variance F-Test to see if these two sectors had equal variance, which they did. Then, we conducted an equal variance T-test to determine if there really was a significant decrease in mean apprehensions between these sectors. Based on our results shown above, (p-value of about 0.06) we were not able to reject the null hypothese, and thus concluded that there was not enough evidence to support a statistically significant difference in means. So although there was a visible decrease, the difference in means was not significant between the max apprehensions in 2010 vs. 2017. 
+
 ##**T-Tests comparing Max Apprehensions by 3-Month Period in 2010 and 2017**
 ```{r, echo=FALSE}
+# create two vectors fo 3-month period with max apprehensions for 2010 and 2107
 max3mnth2010 <- c(A2010$March[1:9],A2010$April[1:9],A2010$May[1:9])
 max3mnth2017 <- c(A2017$October[1:9], A2017$November[1:9], A2017$December[1:9])
+# variance test for the two vectors
 var.test(max3mnth2010, max3mnth2017)
+# equal var t-test for the two vectors 
 t.test(max3mnth2010, max3mnth2017, var.equal = TRUE)
 ```
+
+#### Our next test involves comparing the 3-month period with the most apprehensions in 2010 and 2017. For 2010 our 3-month period with the most apprehensions is March, April, and May with a total of 163,643 and a mean of 6060.852, which was is an average of the number of apprehensions at each sector during those 3 months. For 2017 our 3-month period with the most apprehensions is October, November, and December with a total of 136,646 and a mean of 5060.963. We once again conducted a Variance Test and based on the results of that an equal variance T-test. Our results (above) showed us that there is not a statistically significant difference in means between these 3-month periods. 
 
 ##**Time Series Plot for the Monthly Summaries**
 ```{r, echo=FALSE}
@@ -97,3 +123,5 @@ ts2 <- as.vector(t(ts1))
 ts3 <- ts(ts2, start = c(2000,17), frequency=12)
 ts.plot(ts3, gpars=list(main = "BP Apprehensions Monthly Time Series Plot (2000-2017)",xlab="year", ylab="Apprehensions",lty=c(1:3),col=4))
 ```
+
+#### The above plot is a time series plot of the monthly apprehensions from the year 2000 to 2017. As can be seen from the plot there has been a study decrease in Borer Patrol apprehensions over the years.
